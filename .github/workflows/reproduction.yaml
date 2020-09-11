@@ -1,0 +1,31 @@
+name: SNAT Exhaustion Reproduction
+
+on:
+  push:
+    branches:
+      - master
+
+env:
+  ARTIFACTORY_BUCKET: eng-npm-scratch-local
+  JFROG_CLI_REPORT_USAGE: false
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Setup Jfrog CLI
+        uses: jfrog/setup-jfrog-cli@v1
+        with:
+          VERSION: 1.38.4
+        env:
+          JF_ARTIFACTORY_1: ${{ secrets.ARTIFACTORY_DEPLOYER }}
+
+      - name: Install Dependencies
+        run: |
+          jfrog rt npmc --server-id-resolve bt --server-id-deploy bt --repo-resolve npm --repo-deploy ${{ env.ARTIFACTORY_BUCKET }}
+          jfrog rt npmci
+        env:
+          JFROG_CLI_BUILD_NAME: ${{ github.repository }}
