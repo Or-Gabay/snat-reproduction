@@ -25,7 +25,7 @@ jobs:
 
       - name: Install Dependencies
         run: |
-          jfrog rt npmc --server-id-resolve bt --server-id-deploy bt --repo-resolve npm --repo-deploy ${{ env.ARTIFACTORY_BUCKET }}
+          jfrog rt npmc --server-id-resolve eco --server-id-deploy eco --repo-resolve npm-virtual --repo-deploy npm-virtual
           jfrog rt npmci
         env:
           JFROG_CLI_BUILD_NAME: ${{ github.repository }}
