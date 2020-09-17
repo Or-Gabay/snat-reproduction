@@ -26,6 +26,6 @@ jobs:
       - name: Install Dependencies
         run: |
           jfrog rt npmc --server-id-resolve eco --server-id-deploy eco --repo-resolve npm-virtual --repo-deploy npm-virtual
-          jfrog rt npmci
+          jfrog rt npmci --threads=10
         env:
           JFROG_CLI_BUILD_NAME: ${{ github.repository }}
